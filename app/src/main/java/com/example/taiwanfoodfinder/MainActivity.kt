@@ -1,6 +1,7 @@
 package com.example.taiwanfoodfinder
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.lifecycleScope
@@ -8,6 +9,7 @@ import com.example.taiwanfoodfinder.data.api.RetrofitClient
 import com.example.taiwanfoodfinder.data.api.TokenManager
 import com.example.taiwanfoodfinder.data.models.AuthRequest
 import com.example.taiwanfoodfinder.ui.screens.home.HomeScreen
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -30,13 +32,15 @@ class MainActivity : ComponentActivity() {
 
     private fun fetchTokenAndStartApp() {
         // Mở một luồng chạy ngầm để gọi API
+        var body = AuthRequest(BuildConfig.MY_API_KEY)
+//        val jsonString = Gson().toJson(body)
+        Log.d("API_RESPONSE", body.toString())
         lifecycleScope.launch {
             try {
                 // Gọi lên server gửi theo cái MY_API_KEY bí mật
                 var requestBody = AuthRequest(BuildConfig.MY_API_KEY)
 
                 val response = RetrofitClient.apiService.auth(requestBody)
-
                 if (response.success) {
                     // Thành công! Lưu token vào két sắt
                     TokenManager.saveToken(response.data.preAuthToken)
