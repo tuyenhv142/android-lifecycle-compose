@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.lifecycleScope
 import com.example.taiwanfoodfinder.data.api.RetrofitClient
 import com.example.taiwanfoodfinder.data.api.TokenManager
 import com.example.taiwanfoodfinder.data.models.AuthRequest
 import com.example.taiwanfoodfinder.ui.screens.home.HomeScreen
+import com.example.taiwanfoodfinder.ui.screens.login.LoginScreen
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -26,7 +31,16 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             // Hiển thị trực tiếp HomeScreen
-            HomeScreen()
+            var isLogIn by remember { mutableStateOf(!TokenManager.getUserToken().isNullOrEmpty()) }
+
+            if (isLogIn){
+                HomeScreen()
+            }else{
+                LoginScreen(onLoginSuccess = {
+                    isLogIn = true
+                })
+            }
+
         }
     }
 
