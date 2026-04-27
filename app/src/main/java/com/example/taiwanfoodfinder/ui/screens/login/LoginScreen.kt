@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -119,6 +120,21 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel(),onLoginSuccess: () -> Un
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
+        }
+        TextButton(
+            onClick = {
+                // Gọi thẳng callback để MainActivity cho phép vào MainScreen luôn
+                // Không đi qua ViewModel, không lưu Token.
+                onLoginSuccess()
+            },
+            modifier = Modifier.fillMaxWidth().height(50.dp),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text(
+                text = "Skip Login",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

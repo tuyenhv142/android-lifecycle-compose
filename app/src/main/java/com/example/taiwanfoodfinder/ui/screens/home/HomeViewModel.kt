@@ -20,7 +20,7 @@ class HomeViewModel(
         fetchData()
     }
 
-    private fun fetchData() {
+    public fun fetchData() {
         viewModelScope.launch {
             isLoading.value = true
 

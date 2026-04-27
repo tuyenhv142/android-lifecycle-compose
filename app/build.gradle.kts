@@ -85,4 +85,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("io.coil-kt:coil-compose:2.7.0")
+//    implementation("androidx.compose.material3:material3:1.4.0")
+//    implementation(platform("androidx.compose:compose-bom:2024.09.00"))
 }

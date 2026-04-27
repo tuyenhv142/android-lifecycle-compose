@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.taiwanfoodfinder.data.api.RetrofitClient
 import com.example.taiwanfoodfinder.data.api.TokenManager
 import com.example.taiwanfoodfinder.data.models.AuthRequest
+import com.example.taiwanfoodfinder.ui.screens.MainScreen
 import com.example.taiwanfoodfinder.ui.screens.home.HomeScreen
 import com.example.taiwanfoodfinder.ui.screens.login.LoginScreen
 import com.google.gson.Gson
@@ -34,7 +35,12 @@ class MainActivity : ComponentActivity() {
             var isLogIn by remember { mutableStateOf(!TokenManager.getUserToken().isNullOrEmpty()) }
 
             if (isLogIn){
-                HomeScreen()
+                //HomeScreen()
+                MainScreen(
+                    onLogout = {
+                        isLogIn = false
+                    }
+                )
             }else{
                 LoginScreen(onLoginSuccess = {
                     isLogIn = true

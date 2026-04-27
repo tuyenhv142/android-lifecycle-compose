@@ -24,7 +24,7 @@ class TokenAuthenticator : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         // 1. Chỉ chạy khi mã lỗi là 401 (Hết hạn Token)
-        if (response.code() != 401) return null
+        if (response.code != 401) return null
 
         // 2. Chống lặp vô tận: Nếu thử xin lại mà vẫn 401 thì bỏ cuộc
         if (retryCount(response) >= 2) {
@@ -36,11 +36,11 @@ class TokenAuthenticator : Authenticator {
         // 3. Khóa luồng để tránh gọi API xin token nhiều lần cùng lúc
         synchronized(this) {
             val currentToken = TokenManager.getToken()
-            val requestToken = response.request().header("Authorization")?.removePrefix("Bearer ")
+            val requestToken = response.request.header("Authorization")?.removePrefix("Bearer ")
 
             // Nếu token đã được làm mới bởi 1 request khác thì lấy xài luôn
             if (currentToken != null && currentToken != requestToken) {
-                return response.request().newBuilder()
+                return response.request.newBuilder()
                     .header("Authorization", "Bearer $currentToken")
                     .build()
             }
@@ -51,7 +51,7 @@ class TokenAuthenticator : Authenticator {
             return if (newToken != null) {
                 TokenManager.saveToken(newToken)
                 // Lấy Request cũ bị lỗi, thay Token mới và gửi đi lại
-                response.request().newBuilder()
+                response.request.newBuilder()
                     .header("Authorization", "Bearer $newToken")
                     .build()
             } else {
@@ -84,10 +84,10 @@ class TokenAuthenticator : Authenticator {
     // Đếm số lần đã thử lại
     private fun retryCount(response: Response): Int {
         var count = 1
-        var priorResponse = response.priorResponse()
+        var priorResponse = response.priorResponse
         while (priorResponse != null) {
             count++
-            priorResponse = priorResponse.priorResponse()
+            priorResponse = priorResponse.priorResponse
         }
         return count
     }

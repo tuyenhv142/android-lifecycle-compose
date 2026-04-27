@@ -36,6 +36,7 @@ class LoginViewModel : ViewModel(){
 
                 if (response.success){
                     TokenManager.saveUserToken(response.data.accessToken)
+                    TokenManager.saveUser(response.data.user)
                     Log.d("API_RESPONSE", response.data.accessToken)
                     onSucess()
                 }else{

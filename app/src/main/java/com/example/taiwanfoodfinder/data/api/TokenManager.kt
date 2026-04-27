@@ -2,11 +2,15 @@ package com.example.taiwanfoodfinder.data.api
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.taiwanfoodfinder.data.models.User
+import com.google.gson.Gson
 
 object TokenManager {
     private const val PREF_NAME = "AuthPrefs"
     private const val KEY_AUTH_TOKEN = "jwt_auth_token"
     private const val KEY_USER_TOKEN = "jwt_user_token"
+    private const val KEY_USER = "current_user"
+    private val gson = Gson()
     private var prefs: SharedPreferences? = null
 
     // Hàm này sẽ được gọi khi App vừa bật lên
@@ -42,5 +46,25 @@ object TokenManager {
     fun clearUserToken() {
         prefs?.edit()?.remove(KEY_USER_TOKEN)?.apply()
 
+    }
+
+    fun saveUser(user: User) {
+        val userJson = gson.toJson(user)
+        prefs?.edit()?.putString(KEY_USER, userJson)?.apply()
+    }
+
+    // Lấy chuỗi JSON ra và dịch ngược lại thành object User
+    fun getUser(): User? {
+        val userJson = prefs?.getString(KEY_USER, null)
+        return if (userJson != null) {
+            gson.fromJson(userJson, User::class.java)
+        } else {
+            null
+        }
+    }
+
+    // Nhớ gọi hàm này khi người dùng bấm ĐĂNG XUẤT nhé!
+    fun clearUser() {
+        prefs?.edit()?.remove(KEY_USER)?.apply()
     }
 }
