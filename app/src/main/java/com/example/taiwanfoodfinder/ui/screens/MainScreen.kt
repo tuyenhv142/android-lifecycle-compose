@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.taiwanfoodfinder.ui.screens.home.HomeScreen
+import com.example.taiwanfoodfinder.ui.screens.map.MapScreen
 import com.example.taiwanfoodfinder.ui.screens.profile.ProfileScreen
 
 // 1. Định nghĩa các Tab ở dưới đáy
@@ -54,10 +55,7 @@ fun MainScreen(onLogout: () -> Unit) {
                     HomeScreen()
                 }
                 BottomNavItem.Map -> {
-                    // Màn hình Bản đồ (Tạm thời để chữ)
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text("Bản đồ (Đang phát triển)", style = MaterialTheme.typography.titleLarge)
-                    }
+                    MapScreen()
                 }
                 BottomNavItem.Profile -> {
                     // Màn hình Cá nhân (Tạm thời để chữ)

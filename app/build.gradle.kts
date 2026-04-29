@@ -32,10 +32,14 @@ android {
         // 3. Lấy API Key ra (Nếu không có thì dùng chuỗi rỗng để không bị lỗi null)
         val apiKey = localProperties.getProperty("MY_API_KEY") ?: ""
         val baseUrl = localProperties.getProperty("BASE_URL") ?: ""
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY") ?: ""
 
         // 4. CHÚ Ý: Phải có dấu ngoặc kép \" bọc ngoài biến apiKey
         buildConfigField("String", "MY_API_KEY", apiKey)
         buildConfigField("String", "Base_URL", baseUrl)
+        buildConfigField("String", "MAPS_API_KEY", mapsApiKey)
+
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey.replace("\"", "")
     }
 
     buildTypes {
@@ -86,6 +90,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("com.google.maps.android:maps-compose:4.4.1")
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 //    implementation("androidx.compose.material3:material3:1.4.0")
 //    implementation(platform("androidx.compose:compose-bom:2024.09.00"))
 }
